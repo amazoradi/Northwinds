@@ -71,6 +71,32 @@
 
 -- 10. Get the list of employees who processed the orders that don’t belong to the city in which they live
 
+    SELECT e.FirstName || " " || e.lastName AS "Employee Name", e.city AS "Employee City", o.ShipCity AS "Order City"
+    FROM Employee e
+    JOIN "Order" o on o.EmployeeId = e.id
+    WHERE e.city != o.shipcity
+    GROUP BY "Employee Name"
+
 -- 11. Get the shipping companies that processed ordersfor the category Seafood
 
+    SELECT s.CompanyName as "Shipper Name", c.CategoryName As "Category Name"
+    From Shipper s
+    JOIN "Order" o ON s.ID = o.shipvia
+    JOIN OrderDetail od ON o.id = od.orderId
+    JOIN Product p ON p.id = od.ProductId
+    JOIN Category c ON c.id = p.CategoryId
+    WHERE "Category Name" LIKE "Seafood"
+    GROUP BY "Shipper Name"
+
 -- 12. Get the category name and count of orders processed by employees in the USA
+
+-- not done yet
+
+SELECT e.FirstName || " " || e.lastName AS "Employee Name", e.country AS "Employee Country", c.CategoryName, count(o.id) as "Number of orders"
+FROM Employee e
+JOIN "Order" o on o.EmployeeId = e.id
+JOIN OrderDetail od ON o.id = od.orderId
+JOIN Product p ON p.id = od.ProductId
+JOIN Category c ON c.id = p.CategoryId
+WHERE "Employee Country" LIKE "USA"
+GROUP By "Employee Name"
